@@ -399,25 +399,24 @@ module.exports = function (webpackEnv) {
                 and: [/\.(ts|tsx|js|jsx|md|mdx)$/],
               },
             },
+            {
+              test: /\.tsx?$/,
+              loader: 'esbuild-loader',
+              options: {
+                loader: "tsx",
+                target: 'es2015'
+              }
+            },
             // Process application JS with Babel.
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
-              test: /\.(js|mjs|jsx|ts|tsx)$/,
+              test: /\.(js|jsx)$/,
               include: paths.appSrc,
               loader: require.resolve('babel-loader'),
               options: {
                 customize: require.resolve(
                   'babel-preset-react-app/webpack-overrides'
                 ),
-                presets: [
-                  [
-                    require.resolve('babel-preset-react-app'),
-                    {
-                      runtime: hasJsxRuntime ? 'automatic' : 'classic',
-                    },
-                  ],
-                ],
-                
                 plugins: [
                   isEnvDevelopment &&
                     shouldUseReactRefresh &&
